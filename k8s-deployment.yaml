@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aifa-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aifa-backend
+  template:
+    metadata:
+      labels:
+        app: aifa-backend
+    spec:
+      containers:
+      - name: aifa-backend
+        image: godwin1605/aifa-backend:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aifa-backend-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: aifa-backend
+  ports:
+  - port: 80
+    targetPort: 80
+---
+# SSL Certificate for your domain
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: aifa-backend-cert
+spec:
+  domains:
+    - alfagroups.tech       # ← Replace with your actual domain
+    - www.alfagroups.tech    # ← Replace with your www domain
+---
+# Ingress with SSL
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aifa-backend-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    networking.gke.io/managed-certificates: aifa-backend-cert
+spec:
+  defaultBackend:
+    service:
+      name: aifa-backend-service
+      port:
+        number: 80
+  rules:
+  - host: alfagroups.tech
+    http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: aifa-backend-service
+            port:
+              number: 80
+  - host: www.alfagroups.tech
+    http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: aifa-backend-service
+            port:
+              number: 80

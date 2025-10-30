@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Godwin J | Tech Innovator & Startup Founder</title>
+    <meta name="description" content="Startup founder, AI researcher, and full-stack innovator building impactful solutions in healthcare, crime intelligence, and sustainability.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0e0e0e;
+            --bg-light: #1a1a1a;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --accent: #00ffc3;
+            --accent-blue: #00a8ff;
+            --text-primary: #f0f0f0;
+            --text-secondary: #aaaaaa;
+            --shadow-glow: 0 0 15px rgba(0, 255, 195, 0.3);
+            --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Glass Card Styles */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: var(--transition);
+        }
+
+        .glass-card:hover {
+            box-shadow: var(--shadow-glow);
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 0;
+            z-index: 1000;
+            background: rgba(14, 14, 14, 0.9);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            background: linear-gradient(to right, var(--accent), var(--accent-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section - Simplified like berbinms.com */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 2rem;
+            position: relative;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 80px;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero h1 strong {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent), var(--accent-blue));
+            color: #0a0a0a;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 255, 195, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 255, 195, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 1.5px solid var(--accent);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 195, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 255, 195, 0.2);
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 2rem;
+            border: 2px solid transparent;
+            background: linear-gradient(var(--bg-dark), var(--bg-dark)) padding-box,
+                      linear-gradient(135deg, var(--accent), var(--accent-blue)) border-box;
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent), var(--accent-blue));
+            border-radius: 3px;
+        }
+
+        .section-description {
+            max-width: 700px;
+            margin-bottom: 3rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Projects Section */
+        .projects-grid, .startups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .project-role {
+            color: var(--text-secondary);
+            opacity: 0.8;
+            font-size: 0.95rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .project-status {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .status-launched {
+            background: rgba(0, 255, 195, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(0, 255, 195, 0.3);
+        }
+
+        .status-rd {
+            background: rgba(0, 168, 255, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(0, 168, 255, 0.3);
+        }
+
+        .status-prototype {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tech-tags, .collaborator-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin: 1.5rem 0;
+        }
+
+        .tech-tag {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .collaborator-tag {
+            background: rgba(0, 255, 195, 0.1);
+            color: var(--accent);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(0, 255, 195, 0.2);
+        }
+
+        .project-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+        }
+
+        .project-link:hover {
+            background: rgba(0, 255, 195, 0.1);
+            gap: 0.8rem;
+        }
+
+        /* Research Section */
+        .research-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .research-item h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .research-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .research-summary {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        /* Startups Section */
+        .startups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 2rem;
+        }
+
+        .startup-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-primary);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .startup-card h3::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .startup-card.medileft h3::before {
+            background: var(--accent-blue);
+            box-shadow: 0 0 10px var(--accent-blue);
+        }
+
+        /* Collaboration Section */
+        .collaboration-callout {
+            background: rgba(0, 255, 195, 0.08);
+            border-left: 3px solid var(--accent);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .collaboration-box {
+            text-align: center;
+            padding: 4rem 3rem;
+            position: relative;
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .collab-areas {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .collab-area {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 0.7rem 1.4rem;
+            border-radius: 50px;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .collab-area:hover {
+            background: var(--accent);
+            color: var(--bg-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 195, 0.3);
+            border-color: transparent;
+        }
+
+        .ai-friendly-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 168, 255, 0.15);
+            color: var(--accent-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            border: 1px solid rgba(0, 168, 255, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            position: relative;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(14, 14, 14, 0.7);
+            backdrop-filter: blur(20px);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-note {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0.6;
+            margin-top: 1.5rem;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .startups-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background: rgba(14, 14, 14, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .hero-btns {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .projects-grid, .startups-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            section {
+                padding: 4rem 0;
+            }
+            
+            section h2 {
+                font-size: 1.8rem;
+            }
+            
+            .research-item, .startup-card {
+                padding: 2rem;
+            }
+            
+            .collaboration-box {
+                padding: 3rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">Godwin</div>
+            <div class="nav-links">
+                <a href="#projects">Projects</a>
+                <a href="#research">Research</a>
+                <a href="#startups">Startups</a>
+                <a href="#collaborate">Collaborate</a>
+            </div>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section - Simplified like berbinms.com -->
+    <section class="hero">
+        <!-- <img src="https://via.placeholder.com/300" alt="Godwin J" class="profile-img"> -->
+        <h1>👋 Hi, I'm <strong>Godwin</strong></h1>
+        <p>A startup founder, AI researcher, and full-stack innovator building impactful solutions in healthcare, crime intelligence, and sustainability.</p>
+        <div class="hero-btns">
+            <a href="#projects" class="btn btn-primary">View My Work</a>
+            <a href="#collaborate" class="btn btn-secondary">Let's Collaborate</a>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects" class="container">
+        <h2>Projects & Work</h2>
+        <p class="section-description">Selected projects showcasing my technical skills and innovative solutions across various domains.</p>
+        
+        <div class="projects-grid">
+            <div class="glass-card project-card">
+                <h3>HeavenlyNest</h3>
+                <p class="project-role">Founder & Developer</p>
+                <span class="project-status status-launched"> Currently on hold and not in active development</span>
+                <p class="research-summary">A student-focused rental platform with 3D home views, affordable pricing, monthly rent tracking, and zero landlord interaction.</p>
+                
+                <div class="tech-tags">
+                    <span class="tech-tag">Firebase</span>
+                    <span class="tech-tag">WebGL</span>
+                    <span class="tech-tag">JavaScript</span>
+                </div>
+                
+                <div class="collaborator-tags">
+                    <span class="collaborator-tag">🏠 Property Managers</span>
+                    <span class="collaborator-tag">🎓 Students</span>
+                    <span class="collaborator-tag">🖥️ 3D Tech</span>
+                </div>
+                
+                <div class="collaboration-callout">
+                    <p><strong>Looking for:</strong> Frontend/web developers, 3D modelers, and students in rental-tech to grow the platform.</p>
+                    <p><strong>AI-friendly:</strong> Open to using AI-powered code generators, UI builders, or spatial modeling tools.</p>
+                </div>
+                
+                <div class="project-cta">
+                    <!-- <a href="#" class="project-link">🔗 Learn More</a> -->
+                    <a href="mailto:vencigodwin@gmail.com?subject=Interested%20in%20HeavenlyNest" class="project-link">📩 I'm Interested</a>
+                </div>
+            </div>
+            
+            <div class="glass-card project-card">
+                <h3>External Eye Disease Detection</h3>
+                <p class="project-role">Research Lead & Developer</p>
+                <span class="project-status status-rd">R&D</span>
+                <p class="research-summary">Edge-AI based system for diagnosing external eye diseases using deep learning and blockchain-secured diagnostics.</p>
+                
+                <div class="tech-tags">
+                    <span class="tech-tag">Jetson Nano AGX</span>
+                    <span class="tech-tag">InceptionV3</span>
+                    <span class="tech-tag">Hyperledger</span>
+                </div>
+                
+                <div class="collaborator-tags">
+                    <span class="collaborator-tag">👁️ Ophthalmologists</span>
+                    <span class="collaborator-tag">🤖 AI Researchers</span>
+                    <span class="collaborator-tag">⚕️ Healthcare IT</span>
+                </div>
+                
+                <div class="collaboration-callout">
+                    <p><strong>Looking for:</strong> Medical professionals and AI engineers to refine the diagnostic models and validation.</p>
+                    <p><strong>AI-friendly:</strong> Using AI-assisted medical image analysis and automated testing frameworks.</p>
+                </div>
+                
+                <div class="project-cta">
+                    <!-- <a href="#" class="project-link">🔗 Learn More</a> -->
+                    <a href="mailto:vencigodwin@gmail.com?subject=Interested%20in%20Eye%20Disease%20Detection%20Project" class="project-link">📩 Join the Team</a>
+                </div>
+            </div>
+            
+            <div class="glass-card project-card">
+                <h3>🛡 COGNIPOL – AI-Driven Crime Intelligence</h3>
+                <p class="project-role">Lead Developer</p>
+                <span class="project-status status-rd">Looking for Collaborators</span>
+                <p class="research-summary">
+                    COGNIPOL is a smart multi-module crime intelligence platform that uses Generative AI, Vision Intelligence, and Geospatial Analytics to support real-time law enforcement. Includes FIR processing, CCTV captioning, legal mapping, and dynamic crime heatmaps.
+                </p>
+
+                <div class="tech-tags">
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Leaflet.js</span>
+                    <span class="tech-tag">FastAPI</span>
+                    <span class="tech-tag">GPT-4o</span>
+                    <span class="tech-tag">OpenCV</span>
+                    <span class="tech-tag">BLIP-2</span>
+                    <span class="tech-tag">FAISS</span>
+                </div>
+
+                <div class="collaborator-tags">
+                    <span class="collaborator-tag">👮 Criminology Students</span>
+                    <span class="collaborator-tag">🧠 AI Engineers</span>
+                    <span class="collaborator-tag">🗺 GIS Analysts</span>
+                    <span class="collaborator-tag">📊 Data Scientists</span>
+                </div>
+                
+                <div class="collaboration-callout">
+                    <p><strong>Looking for:</strong> AI/ML engineers, GIS developers, and criminology researchers to co-develop this crime intelligence system.</p>
+                    <p><strong>AI-friendly:</strong> Tools like GPT-4o, HuggingFace, and Vision AI are already in use — collaboration using advanced AI tools is highly encouraged.</p>
+                </div>
+
+                <div class="project-cta">
+                    <a href="mailto:vencigodwin@gmail.com?subject=Interested%20in%20COGNIPOL%20Collaboration" class="project-link">🤝 Collaborate</a>
+                    <!-- <a href="#" class="project-link">🔗 Learn More</a> -->
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Research Section -->
+    <section id="research" class="container">
+        <h2>Research & Publications</h2>
+        <p class="section-description">Academic research and publications in the fields of AI, healthcare technology, and IoT systems.</p>
+        
+        <div class="research-timeline">
+            <div class="glass-card research-item">
+                <h3>Hybrid AI for Eye Disease Detection using Jetson Nano</h3>
+                <div class="research-meta">
+                    <span>Journal Paper (Under Review)</span>
+                    <span>Expected 2025</span>
+                </div>
+                <p class="research-summary">Combines edge computing with AI and blockchain to provide early and secure diagnosis of eye disorders in offline and rural scenarios.</p>
+                <div class="project-cta">
+                    <a href="#" class="project-link">💾 Download PDF</a>
+                    <a href="mailto:vencigodwin@gmail.com?subject=Research%20Collaboration" class="project-link">📩 Collaborate on Research</a>
+                </div>
+            </div>
+            
+            <div class="glass-card research-item">
+                <h3>IoT-Based Smart Metal Detector for Washing Machines</h3>
+                <div class="research-meta">
+                    <span>Conference Paper</span>
+                    <span>2024</span>
+                </div>
+                <p class="research-summary">Developed a smart detection system to identify metal objects inside washing machines, preventing internal damage.</p>
+                <div class="project-cta">
+                    <a href="#" class="project-link">💾 Download PDF</a>
+                    <a href="https://wa.me/916379656950" target="_blank" class="project-link">💬 Chat on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Startups Section -->
+    <section id="startups" class="container">
+        <h2>Startups & Innovation Projects</h2>
+        <p class="section-description">Ventures and innovative projects I'm currently building or involved with.</p>
+        
+        <div class="startups-grid">
+            <div class="glass-card startup-card">
+                <h3>AlfaVox</h3>
+                <p class="research-summary">A CMS platform to create and manage personalized portfolios with authentication, real-time data, and custom themes—no coding required.</p>
+                
+                <div class="tech-tags">
+                    <span class="tech-tag">Firebase</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Firestore</span>
+                </div>
+                
+                <p><strong>Status:</strong> <span class="status-launched">Live</span></p>
+                
+                <div class="collaboration-callout">
+                    <p><strong>Looking for:</strong> Designers and content creators to test the platform and provide feedback.</p>
+                    <p><strong>AI-friendly:</strong> Using AI-assisted content generation and design tools is encouraged.</p>
+                </div>
+                
+                <div class="project-cta">
+                    <a href="https://alfagroups.me/land.html" class="project-link">🔗 Visit Site</a>
+                    <a href="mailto:vencigodwin@gmail.com?subject=AlfaVox%20Inquiry" class="project-link">📩 Contact</a>
+                </div>
+            </div>
+            
+            <div class="glass-card startup-card medileft">
+                <h3>MediLeft – Medicine Reuse Platform</h3>
+                <p class="research-summary">A social-impact healthcare initiative aimed at reducing medical waste by redistributing non-expired, unused medicines through a legally compliant, verified network.</p>
+                
+                <div class="tech-tags">
+                    <span class="tech-tag">Firebase</span>
+                    <span class="tech-tag">Verification System</span>
+                    <span class="tech-tag">Legal Compliance</span>
+                </div>
+                
+                <div class="collaborator-tags">
+                    <span class="collaborator-tag">💊 Pharmacy Students</span>
+                    <span class="collaborator-tag">🏥 Public Health</span>
+                    <span class="collaborator-tag">🩺 NGO Volunteers</span>
+                </div>
+                
+                <p><strong>Status:</strong> <span class="status-rd">R&D Phase</span></p>
+                
+                <div class="collaboration-callout">
+                    <p><strong>Looking for:</strong> Pharmacy students, health-tech enthusiasts, and web developers to help build and launch the platform.</p>
+                    <p><strong>AI-friendly:</strong> AI-assisted development is welcomed — feel free to use automation or low-code tools to accelerate impact.</p>
+                </div>
+                
+                <div class="project-cta">
+                    <!-- <a href="#" class="project-link">🔗 Learn More</a> -->
+                    <a href="mailto:vencigodwin@gmail.com?subject=Interested%20in%20MediLeft" class="project-link">🤝 Join the Cause</a>
+                </div>
+            </div>
+            
+            <div class="glass-card startup-card">
+    <h3>EcoChain – AI-Powered Circular Economy for Walmart</h3>
+    <p class="research-summary">
+        A smart AI + IoT platform designed to reduce Walmart’s $18B annual food waste by tracking real-time product freshness, enabling dynamic pricing, automating donations, and promoting zero-waste supply chain decisions.
+    </p>
+
+    <div class="tech-tags">
+        <span class="tech-tag">IoT Sensors</span>
+        <span class="tech-tag">AI/ML</span>
+        <span class="tech-tag">Blockchain</span>
+        <span class="tech-tag">Sustainability</span>
+        <span class="tech-tag">Retail Intelligence</span>
+    </div>
+
+    <div class="collaborator-tags">
+        <span class="collaborator-tag">📦 Supply Chain</span>
+        <span class="collaborator-tag">🍎 Perishable Logistics</span>
+        <span class="collaborator-tag">🧠 AI Engineering</span>
+        <span class="collaborator-tag">📊 ESG Analysts</span>
+    </div>
+
+    <p><strong>Status:</strong> <span class="status-rd">Working Prototype</span></p>
+
+    <div class="collaboration-callout">
+        <p><strong>Looking for:</strong> Collaborators in AI, sustainability analytics, supply chain optimization, and IoT hardware to take the prototype to a real-world pilot with retail partners.</p>
+        <p><strong>AI-friendly:</strong> Built with Firebase, Vertex AI, Firestore — ideal for integrating advanced ML models, generative AI, and predictive analytics at scale.</p>
+    </div>
+
+    <div class="project-cta">
+        <a href="https://youtu.be/g-neauS1dz0" class="project-link">🔗 Demo Video</a>
+        <a href="mailto:vencigodwin@gmail.com?subject=Interested%20in%20EcoChain" class="project-link">🔁 Join the Zero-Waste Revolution</a>
+    </div>
+</div>
+
+            
+            <div class="glass-card startup-card">
+                <h3>GrainGuard</h3>
+                <p class="research-summary">Compact IoT solution for real-time tamper detection during the transit and storage of food, medicines, and sensitive goods.</p>
+                
+                <div class="tech-tags">
+                    <span class="tech-tag">IoT Sensors</span>
+                    <span class="tech-tag">Arduino/ESP32</span>
+                    <span class="tech-tag">Real-time Alerts</span>
+                </div>
+                
+                <div class="collaborator-tags">
+                    <span class="collaborator-tag">📡 IoT Engineers</span>
+                    <span class="collaborator-tag">🚚 Supply Chain</span>
+                    <span class="collaborator-tag">🔒 Security</span>
+                </div>
+                
+                <p><strong>Status:</strong> <span class="status-rd">Concept Stage</span></p>
+                
+                <div class="collaboration-callout">
+                    <p><strong>Looking for:</strong> IoT developers, embedded system engineers, and supply chain tech innovators to co-build the system.</p>
+                    <p><strong>AI-friendly:</strong> Using AI for smart alert logic, dashboard generation, or hardware prototyping is a plus.</p>
+                </div>
+                
+                <div class="project-cta">
+                    <!-- <a href="#" class="project-link">🔗 Learn More</a> -->
+                    <a href="mailto:vencigodwin@gmail.com?subject=Interested%20in%20GrainGuard" class="project-link">🤝 Collaborate</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Collaboration Section -->
+    <section id="collaborate">
+        <div class="container">
+            <div class="glass-card collaboration-box">
+                <h2>Let's Build Together <span style="font-size: 1.5rem;">🚀</span></h2>
+                <p class="section-description">I'm actively looking for students, developers, and innovators who are ready to build and develop real-world projects with me — across domains like AI, IoT, public health, sustainability, and crime intelligence.</p>
+                
+                <p class="section-description">Whether you're an AI/ML engineer, frontend/backend developer, IoT enthusiast, or from domains like pharmacy, criminology, or packaging science, let's collaborate. Using AI tools like ChatGPT, GitHub Copilot, low-code/no-code builders, or automation frameworks is absolutely encouraged — we focus on building smarter, not harder.</p>
+                
+                <div class="collab-areas">
+                    <span class="collab-area">AI in Healthcare</span>
+                    <span class="collab-area">Edge + IoT Projects</span>
+                    <span class="collab-area">Sustainable Tech</span>
+                    <span class="collab-area">Portfolio Tools</span>
+                    <span class="collab-area">Mentorship & EdTech</span>
+                    <span class="collab-area">Crime Intelligence</span>
+                </div>
+                
+                <div class="hero-btns">
+                    <a href="mailto:vencigodwin@gmail.com" class="btn btn-primary">Let's Talk 💬</a>
+                    <a href="https://linkedin.com/in/godwin1603" target="_blank" class="btn btn-secondary">Connect on LinkedIn</a>
+                    <a href="https://wa.me/916379656950" target="_blank" class="btn btn-secondary">Chat on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="mailto:vencigodwin@gmail.com">💬 vencigodwin@gmail.com</a>
+                <a href="https://linkedin.com/in/godwin1603" target="_blank">🔗 LinkedIn</a>
+                <a href="https://wa.me/916379656950" target="_blank">💬 WhatsApp</a>
+            </div>
+            <p class="footer-note">© 2024 Godwin J. All rights reserved. Last updated: June 2024</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add floating animation to glass cards
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.glass-card');
+            cards.forEach((card, index) => {
+                card.style.setProperty('--delay', `${index * 0.1}s`);
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

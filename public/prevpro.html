@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Portfolio</title>
+  <link id="themeStylesheet" rel="stylesheet" href="themes/dark.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Top Bar with Theme Selector */
+    .top-bar {
+      width: 100%;
+      background-color: var(--top-bar-bg);
+      padding: 8px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    
+    .top-bar-content {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    /* Professional Theme Selector Styles */
+    .theme-selector-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .theme-selector-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    
+    #themeSelector {
+      padding: 8px 32px 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 16px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    #themeSelector:hover {
+      border-color: var(--accent-color);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    #themeSelector:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+    
+    /* Adjust header position to account for top bar */
+    header {
+      position: relative;
+      padding: 15px 0;
+      margin-top: 50px; /* Add margin to account for fixed top bar */
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    /* Make sure theme selector is visible on mobile */
+    @media (max-width: 768px) {
+      .theme-selector-container {
+        gap: 8px;
+      }
+      
+      #themeSelector {
+        padding: 6px 28px 6px 10px;
+        font-size: 0.8rem;
+      }
+      
+      .theme-selector-label {
+        display: none;
+      }
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+    
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      nav ul.show {
+        display: flex;
+      }
+      
+      header {
+        margin-top: 45px; /* Slightly less margin on mobile */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Bar with Theme Selector -->
+  <div class="top-bar">
+    <div class="top-bar-content">
+      <div class="theme-selector-container">
+        <span class="theme-selector-label">Theme:</span>
+        <select id="themeSelector">
+          <option value="light">Light</option>
+          <option value="dark" selected>Dark</option>
+          <option value="Zestfolio">Zestfolio</option>
+          <option value="hacker">Hacker</option>
+          <option value="retro">Retro</option>
+          <option value="windows95">Windows 95</option>
+          <option value="Death Note">Death Note</option>
+          <option value="Purple">Purple</option>
+          <option value="yellow">Yellow</option>
+          <option value="B&W">Monochrome</option>
+          <option value="brown">Brown</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <p style="color: aliceblue;">This is a reference theme. The original theme may differ in layout and features—this preview is only for visual color reference.</p>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo" id="logo">Portfolio</div>
+        <nav>
+          <ul id="navMenu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#resume">Resume</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 id="profileName">Alex Johnson</h1>
+          <h2 id="profileTitle">Senior Web Developer</h2>
+          <p id="profileBio">Passionate full-stack developer with 8+ years of experience building responsive web applications. Specialized in JavaScript frameworks and cloud architecture.</p>
+          <p id="profileLocation"><i class="fas fa-map-marker-alt"></i> San Francisco, CA</p>
+          <div class="social-links" id="profileSocialLinks">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="creator img.png" alt="Profile Photo" class="profile-image" id="profileImage">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resume Section -->
+  <section class="resume-section" id="resume">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-file-alt"></i> Resume</h2>
+      </div>
+      <div class="resume-container">
+        <p>Download my complete resume to learn more about my professional background, education, and qualifications.</p>
+        <a href="#" class="resume-btn" id="resumeDownloadBtn">
+          <i class="fas fa-download"></i> Download Resume (PDF)
+        </a>
+        <div class="education">
+          <h3>Education</h3>
+          <div class="education-item">
+            <h4>Master of Computer Science</h4>
+            <p>Stanford University | 2012-2014</p>
+          </div>
+          <div class="education-item">
+            <h4>Bachelor of Software Engineering</h4>
+            <p>University of California | 2008-2012</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-tools"></i> Skills</h2>
+      </div>
+      <div class="skills-container" id="skillsContainer">
+        <div class="skill-category">
+          <h3>Frontend</h3>
+          <ul>
+            <li>React.js</li>
+            <li>Vue.js</li>
+            <li>Angular</li>
+            <li>HTML5/CSS3</li>
+            <li>JavaScript/TypeScript</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3>Backend</h3>
+          <ul>
+            <li>Node.js</li>
+            <li>Python</li>
+            <li>Java</li>
+            <li>Ruby on Rails</li>
+            <li>PHP</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3>DevOps</h3>
+          <ul>
+            <li>AWS</li>
+            <li>Docker</li>
+            <li>Kubernetes</li>
+            <li>CI/CD</li>
+            <li>Terraform</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Languages Section -->
+  <section id="languages">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-language"></i> Languages</h2>
+      </div>
+      <div class="skills-container" id="languagesContainer">
+        <div class="language-item">
+          <span>English</span>
+          <div class="language-proficiency">
+            <div class="proficiency-bar" style="width: 100%;"></div>
+          </div>
+          <span>Native</span>
+        </div>
+        <div class="language-item">
+          <span>Spanish</span>
+          <div class="language-proficiency">
+            <div class="proficiency-bar" style="width: 80%;"></div>
+          </div>
+          <span>Fluent</span>
+        </div>
+        <div class="language-item">
+          <span>French</span>
+          <div class="language-proficiency">
+            <div class="proficiency-bar" style="width: 60%;"></div>
+          </div>
+          <span>Intermediate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-briefcase"></i> Experience</h2>
+      </div>
+      <div class="timeline" id="experienceTimeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2020 - Present</div>
+          <div class="timeline-content">
+            <h3>Senior Web Developer</h3>
+            <h4>TechSolutions Inc.</h4>
+            <p>Lead a team of 5 developers to build enterprise-level web applications. Implemented CI/CD pipelines reducing deployment time by 40%.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2016 - 2020</div>
+          <div class="timeline-content">
+            <h3>Web Developer</h3>
+            <h4>Digital Innovations LLC</h4>
+            <p>Developed and maintained 15+ client websites. Introduced React.js to the tech stack improving frontend performance by 35%.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2014 - 2016</div>
+          <div class="timeline-content">
+            <h3>Junior Developer</h3>
+            <h4>WebCraft Studios</h4>
+            <p>Built responsive websites using HTML, CSS, and JavaScript. Collaborated with designers to implement UI/UX improvements.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-code"></i> Projects</h2>
+      </div>
+      <div class="projects-container" id="projectsContainer">
+        <div class="project-card">
+          <h3>E-commerce Platform</h3>
+          <p>Full-featured online store with payment integration, inventory management, and analytics dashboard.</p>
+          <div class="project-tech">React, Node.js, MongoDB</div>
+          <a href="#" class="project-link">View Project</a>
+        </div>
+        <div class="project-card">
+          <h3>Task Management App</h3>
+          <p>Collaborative task management tool with real-time updates and team productivity analytics.</p>
+          <div class="project-tech">Vue.js, Firebase</div>
+          <a href="#" class="project-link">View Project</a>
+        </div>
+        <div class="project-card">
+          <h3>Weather Dashboard</h3>
+          <p>Interactive weather application with 5-day forecasts and historical data visualization.</p>
+          <div class="project-tech">JavaScript, API Integration</div>
+          <a href="#" class="project-link">View Project</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research Section -->
+  <section id="research">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-book"></i> Research</h2>
+      </div>
+      <div class="research-container" id="researchContainer">
+        <div class="research-item">
+          <h3>Machine Learning in Web Development</h3>
+          <p>Published in Journal of Web Technologies, 2021</p>
+          <a href="#">Read Paper</a>
+        </div>
+        <div class="research-item">
+          <h3>Progressive Web App Performance</h3>
+          <p>Presented at WebDev Conference 2019</p>
+          <a href="#">View Presentation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Certificates Section -->
+  <section id="certificates">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-certificate"></i> Certificates</h2>
+      </div>
+      <div class="certificates-container" id="certificatesContainer">
+        <div class="certificate-item">
+          <h3>AWS Certified Developer</h3>
+          <p>Amazon Web Services | 2022</p>
+        </div>
+        <div class="certificate-item">
+          <h3>Google Cloud Professional</h3>
+          <p>Google Cloud | 2021</p>
+        </div>
+        <div class="certificate-item">
+          <h3>React Nanodegree</h3>
+          <p>Udacity | 2020</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Open Source Section -->
+  <section id="opensource">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fab fa-github"></i> Open Source</h2>
+      </div>
+      <div class="opensource-container" id="opensourceContainer">
+        <div class="opensource-item">
+          <h3>UI Component Library</h3>
+          <p>Contributed to open-source component library with 50+ reusable components.</p>
+          <a href="#">View on GitHub</a>
+        </div>
+        <div class="opensource-item">
+          <h3>Developer Tools Plugin</h3>
+          <p>Created Chrome extension for debugging React applications with 5k+ downloads.</p>
+          <a href="#">View on GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Awards Section -->
+  <section id="awards">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-award"></i> Awards</h2>
+      </div>
+      <div class="awards-container" id="awardsContainer">
+        <div class="award-item">
+          <h3>Best Web App 2022</h3>
+          <p>Tech Innovation Awards</p>
+        </div>
+        <div class="award-item">
+          <h3>Developer of the Year</h3>
+          <p>Code Masters Conference 2020</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline Section -->
+  <section id="timeline">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-history"></i> Career Timeline</h2>
+      </div>
+      <div class="milestones-container" id="timelineContainer">
+        <div class="milestone">
+          <div class="milestone-date">2022</div>
+          <div class="milestone-content">
+            <h3>Promoted to Senior Developer</h3>
+            <p>Led major architecture redesign improving system performance by 65%</p>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-date">2019</div>
+          <div class="milestone-content">
+            <h3>First Open Source Contribution</h3>
+            <p>Contributed to popular JavaScript library with 10k+ weekly downloads</p>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-date">2016</div>
+          <div class="milestone-content">
+            <h3>First Full-time Developer Role</h3>
+            <p>Joined Digital Innovations LLC as web developer</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-images"></i> Portfolio Gallery</h2>
+      </div>
+      <div class="gallery-container" id="galleryContainer">
+        <div class="gallery-item">
+          <img src="https://via.placeholder.com/300x200" alt="Project Screenshot">
+          <p>E-commerce Platform</p>
+        </div>
+        <div class="gallery-item">
+          <img src="https://via.placeholder.com/300x200" alt="Project Screenshot">
+          <p>Task Management App</p>
+        </div>
+        <div class="gallery-item">
+          <img src="https://via.placeholder.com/300x200" alt="Project Screenshot">
+          <p>Weather Dashboard</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Profiles Section -->
+  <section id="social">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-globe"></i> Social Profiles</h2>
+      </div>
+      <div class="social-profiles-container" id="socialProfilesContainer">
+        <a href="#" class="social-profile">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="#" class="social-profile">
+          <i class="fab fa-linkedin"></i> LinkedIn
+        </a>
+        <a href="#" class="social-profile">
+          <i class="fab fa-twitter"></i> Twitter
+        </a>
+        <a href="#" class="social-profile">
+          <i class="fab fa-stack-overflow"></i> Stack Overflow
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="container">
+      <div class="footer-content">
+        <p>Feel free to reach out to me for collaborations or just a friendly hello</p>
+        <div class="footer-social" id="footerSocialLinks">
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fas fa-envelope"></i></a>
+        </div>
+        <p class="copyright">&copy; <span id="currentYear"></span> All Rights Reserved</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <div class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script>
+    // Enhanced Theme Switching with Animation
+    const themeSelector = document.getElementById('themeSelector');
+    const themeStylesheet = document.getElementById('themeStylesheet');
+    const body = document.body;
+    
+    // Add transition for smooth theme changes
+    body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+    
+    // Function to load theme with fade effect
+    function loadTheme(theme) {
+      // Start fade out
+      body.style.opacity = '0.8';
+      
+      setTimeout(() => {
+        themeStylesheet.href = `themes/${theme}.css`;
+        localStorage.setItem('selectedTheme', theme);
+        
+        // Force repaint before fading back in
+        void body.offsetWidth;
+        
+        // Fade back in
+        body.style.opacity = '1';
+      }, 150);
+    }
+    
+    // Event listener for theme changes
+    themeSelector.addEventListener('change', () => {
+      loadTheme(themeSelector.value);
+      
+      // Add subtle animation to selector
+      themeSelector.style.transform = 'scale(0.98)';
+      setTimeout(() => {
+        themeSelector.style.transform = 'scale(1)';
+      }, 100);
+    });
+    
+    // Load saved theme preference
+    const savedTheme = localStorage.getItem('selectedTheme') || 'dark';
+    if (savedTheme) {
+      themeSelector.value = savedTheme;
+      loadTheme(savedTheme);
+    }
+    
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navMenu = document.getElementById('navMenu');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+      mobileMenuBtn.innerHTML = navMenu.classList.contains('show') 
+        ? '<i class="fas fa-times"></i>' 
+        : '<i class="fas fa-bars"></i>';
+    });
+    
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        window.scrollTo({
+          top: targetElement.offsetTop - 80,
+          behavior: 'smooth'
+        });
+        
+        // Close mobile menu if open
+        navMenu.classList.remove('show');
+        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+      });
+    });
+    
+    // Back to Top Button
+    const backToTopBtn = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.style.display = 'block';
+        backToTopBtn.style.opacity = '1';
+      } else {
+        backToTopBtn.style.opacity = '0';
+        setTimeout(() => {
+          if (window.pageYOffset <= 300) {
+            backToTopBtn.style.display = 'none';
+          }
+        }, 200);
+      }
+    });
+    
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

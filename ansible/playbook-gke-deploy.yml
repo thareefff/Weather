@@ -1,0 +1,64 @@
+---
+- name: Deploy and Manage AIFA Application on GKE
+  hosts: localhost
+  connection: local
+  vars:
+    project_id: "alfa-vox-portfolio"
+    cluster_name: "alfavox-cluster"
+    zone: "us-central1-a"
+    image_name: "godwin1605/aifa-backend:latest"
+    
+  tasks:
+    - name: Check GCP authentication status
+      shell: |
+        gcloud auth list --format="value(account)" | head -1
+      register: gcp_user
+      args:
+        executable: /bin/bash
+
+    - name: Display current GCP user
+      debug:
+        msg: "Currently authenticated as: {{ gcp_user.stdout }}"
+
+    - name: Configure kubectl for GKE cluster
+      shell: |
+        gcloud container clusters get-credentials {{ cluster_name }} --zone {{ zone }} --project {{ project_id }}
+      args:
+        executable: /bin/bash
+
+    - name: Check if k8s-deployment.yaml exists
+      stat:
+        path: ../k8s-deployment.yaml
+      register: k8s_file
+
+    - name: Display file status
+      debug:
+        msg: "k8s-deployment.yaml exists: {{ k8s_file.stat.exists }}"
+
+    - name: Deploy application configuration
+      shell: |
+        kubectl apply -f ../k8s-deployment.yaml
+      args:
+        executable: /bin/bash
+      when: k8s_file.stat.exists
+
+    - name: Wait for deployment to be ready
+      shell: |
+        kubectl rollout status deployment/aifa-backend --timeout=300s
+      args:
+        executable: /bin/bash
+
+    - name: Get application external IP
+      shell: |
+        kubectl get service aifa-backend-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+      register: service_ip
+      args:
+        executable: /bin/bash
+
+    - name: Display deployment information
+      debug:
+        msg: |
+          ✅ Application deployed successfully!
+          🌐 Access URL: http://{{ service_ip.stdout }}
+          🏷️ Environment: production
+          📦 Image: {{ image_name }}

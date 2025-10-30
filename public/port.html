@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Portfolio</title>
+<link rel="preload" href="themes/dark.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="themes/dark.css"></noscript>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  /* In dark.css */
+/* Add these new rules */
+.profile-name, .profile-title, .profile-bio, .profile-location {
+  min-height: 1.2em;
+  line-height: 1.2;
+}
+
+.social-links {
+  min-height: 44px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+.profile-image {
+  width: 350px;
+  height: 350px;
+  min-width: 280px;
+  min-height: 280px;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .hero-text {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .hero-image {
+    min-height: 350px;
+  }
+}
+</style>
+
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo" id="logo">Portfolio</div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <i class="fas fa-bars"></i>
+        </button>
+        <nav>
+          <ul id="navMenu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#resume">Resume</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- In the hero section of port.html -->
+<!-- Replace the hero section with this -->
+<section class="hero" id="home">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="text-container">
+          <h1 id="profileName">Loading...</h1>
+          <h2 id="profileTitle">Loading...</h2>
+          <p id="profileBio">Loading...</p>
+          <p id="profileLocation"><i class="fas fa-map-marker-alt"></i> Loading...</p>
+        </div>
+        <div class="social-links" id="profileSocialLinks">
+          <!-- Social links will be added here by JavaScript -->
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="image-wrapper">
+          <img src="https://via.placeholder.com/350" alt="Profile Photo" class="profile-image" id="profileImage">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  <!-- Resume Section -->
+  <section class="resume-section" id="resume">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-file-alt"></i> Resume</h2>
+      </div>
+      <div class="resume-container">
+        <p>Download my resume to learn more about my professional background and qualifications.</p>
+        <a href="#" class="resume-btn" id="resumeDownloadBtn">
+          <i class="fas fa-download"></i> Download Resume
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-tools"></i> Skills</h2>
+      </div>
+      <div class="skills-container" id="skillsContainer">
+        <!-- Skills will be added here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Languages Section -->
+  <section id="languages">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-language"></i> Languages</h2>
+      </div>
+      <div class="skills-container" id="languagesContainer">
+        <!-- Languages will be added here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-briefcase"></i> Experience</h2>
+      </div>
+      <div class="timeline" id="experienceTimeline">
+        <!-- Experience items will be added here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-code"></i> Projects</h2>
+      </div>
+      <div class="projects-container" id="projectsContainer">
+        <!-- Projects will be added here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Research Section -->
+  <section id="research">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-book"></i> Research</h2>
+      </div>
+      <div class="research-container" id="researchContainer">
+        <!-- Research items will be added here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Certificates Section -->
+  <section id="certificates">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-certificate"></i> Certificates</h2>
+      </div>
+      <div class="certificates-container" id="certificatesContainer">
+        <!-- Certificates will be added here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Open Source Section -->
+  <section id="opensource">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fab fa-github"></i> Open Source</h2>
+      </div>
+      <div class="opensource-container" id="opensourceContainer">
+        <!-- Open source contributions will be added here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Awards Section -->
+  <section id="awards">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-award"></i> Awards</h2>
+      </div>
+      <div class="awards-container" id="awardsContainer">
+        <!-- Awards will be added here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline Section -->
+  <section id="timeline">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-history"></i> Career Timeline</h2>
+      </div>
+      <div class="milestones-container" id="timelineContainer">
+        <!-- Timeline items will be added here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-images"></i> Portfolio Gallery</h2>
+      </div>
+      <div class="gallery-container" id="galleryContainer">
+        <!-- Gallery items will be added here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Profiles Section -->
+  <section id="social">
+    <div class="container">
+      <div class="section-title">
+        <h2><i class="fas fa-globe"></i> Social Profiles</h2>
+      </div>
+      <div class="social-profiles-container" id="socialProfilesContainer">
+        <!-- Social profiles will be added here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer - Always visible -->
+  <footer id="contact">
+    <div class="container">
+      <div class="footer-content">
+        <p>Feel free to reach out to me for collaborations or just a friendly hello</p>
+        <div class="footer-social" id="footerSocialLinks">
+          <!-- Social links will be added here by JavaScript -->
+        </div>
+        <p class="copyright">&copy; <span id="currentYear"></span> All Rights Reserved</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <div class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <!-- Firebase and JavaScript -->
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage-compat.js"></script>
+  <script src="js/port.js"></script>
+</body>
+</html>

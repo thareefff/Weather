@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio CMS Admin</title>
+  <link rel="stylesheet" href="css/useradmin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+   <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage-compat.js"></script>
+</head>
+<body>
+     <div class="login-container" id="loginContainer">
+      <img src="alfavox-logo.png">
+    <h1><i class="fas fa-user-cog"></i> Portfolio UserAdmin</h1>
+    <p>Enter your email to receive a secure login link</p>
+    
+    <form id="emailLoginForm">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" required placeholder="your@email.com">
+      </div>
+      <button type="submit" class="btn btn-primary" id="sendLinkBtn">
+        <span id="sendLinkBtnText">Send Login Link</span>
+      </button>
+    </form>
+    
+    <div id="statusMessage" class="hidden"></div>
+    <div id="emailSentMessage" class="hidden">
+      <p>We've sent a login link to your email. Check your inbox and click the link to access your admin panel.</p>
+      <p>You can close this page - the link will bring you back here.</p>
+      <p>Open the E-mail link in the same browser.Where you request for "LOGIN LINK"</p>
+    </div>
+  </div>
+
+  <!-- Rest of your HTML content remains exactly the same -->
+  <div id="adminContent" class="admin-container">
+    <!-- Navigation -->
+    <!-- <nav class="admin-nav">
+      <h2><i class="fas fa-user-cog"></i> Portfolio Admin</h2>
+      
+      <div class="nav-group">
+        <h3>Main Content</h3>
+        <a href="#profile" class="nav-link active"><i class="fas fa-user"></i> Profile</a>
+        <a href="#resume" class="nav-link"><i class="fas fa-file-alt"></i> Resume</a>
+        <a href="#skills" class="nav-link"><i class="fas fa-tools"></i> Skills</a>
+        <a href="#languages" class="nav-link"><i class="fas fa-language"></i> Languages</a>
+      </div>
+      
+      <div class="nav-group">
+        <h3>Professional</h3>
+        <a href="#experience" class="nav-link"><i class="fas fa-briefcase"></i> Experience</a>
+        <a href="#projects" class="nav-link"><i class="fas fa-code"></i> Projects</a>
+        <a href="#research" class="nav-link"><i class="fas fa-book"></i> Research</a>
+        <a href="#certificates" class="nav-link"><i class="fas fa-certificate"></i> Certificates</a>
+        <a href="#opensource" class="nav-link"><i class="fab fa-github"></i> Open Source</a>
+      </div>
+      
+      <div class="nav-group">
+        <h3>Achievements</h3>
+        <a href="#awards" class="nav-link"><i class="fas fa-award"></i> Awards</a>
+        <a href="#timeline" class="nav-link"><i class="fas fa-history"></i> Timeline</a>
+      </div>
+      
+      <div class="nav-group">
+        <h3>Portfolio</h3>
+        <a href="#gallery" class="nav-link"><i class="fas fa-images"></i> Gallery</a>
+        <a href="#social" class="nav-link"><i class="fas fa-globe"></i> Social Profiles</a>
+      </div>
+      
+      <div class="nav-group">
+        <h3>Other</h3>
+      </div>
+    </nav> -->
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <div class="dashboard-header">
+        <h1 class="dashboard-title">Portfolio Dashboard</h1>
+      </div>
+
+      <!-- Profile Editor -->
+      <section id="profile" class="editor-section" aria-label="Profile editor">
+        <h2 class="section-title"><i class="fas fa-user"></i> Profile</h2>
+        <div class="form-group">
+          <label for="photo-input">Profile Photo</label>
+          <div class="photo-upload">
+            <img id="photo-preview" src="" alt="Profile Photo" />
+            <input type="file" placeholder="" id="photo-input" accept="image/*" />
+            <p style="margin: 5px 0; font-size: 0.9em; color: #555;">
+        Select an image — it will auto-save(For Profile Image Only)
+      </p>
+            
+        </div>
+        <form id="profile-form" novalidate>
+          <div class="form-group">
+            <label for="profile-name">Full Name</label>
+            <input type="text" id="profile-name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="profile-title">Professional Title</label>
+            <input type="text" id="profile-title" name="title" required />
+          </div>
+          <div class="form-group">
+            <label for="profile-location">Location</label>
+            <input type="text" id="profile-location" name="location" required />
+          </div>
+          <div class="form-group">
+            <label for="profile-bio">Bio</label>
+            <textarea id="profile-bio" name="bio" required></textarea>
+          </div>
+          <h3><i class="fas fa-share-alt"></i> Social Links</h3>
+          <div class="form-group">
+            <label for="profile-github">GitHub URL</label>
+            <input type="url" id="profile-github" name="github" />
+          </div>
+          <div class="form-group">
+            <label for="profile-linkedin">LinkedIn URL</label>
+            <input type="url" id="profile-linkedin" name="linkedin" />
+          </div>
+          <div class="form-group">
+            <label for="profile-email">Email</label>
+            <input type="email" id="profile-email" name="email" />
+          </div>
+          <button type="submit" class="btn-primary">Save Profile</button>
+        </form>
+      </section>
+      <section id="theme" class="editor-section" aria-label="Theme selector">
+  <h2 class="section-title"><i class="fas fa-palette"></i> Theme</h2>
+  <form id="theme-form">
+    <div class="form-group">
+      <label for="theme-select">Select Theme</label>
+      <select id="theme-select" name="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="Zestfolio">Zestfolio</option>
+        <option value="hacker">hacker</option>
+        <option value="retro">retro</option>
+        <option value="windows95">windows95</option>
+        <option value="Death Note">Death Note</option>
+        <option value="Purple">Purple</option>
+        <option value="yellow">Yellow</option>
+        <option value="B&W">Black & White</option>
+        <option value="brown">Brown</option>
+      </select>
+    </div>
+    <button type="submit" class="btn-primary">Save Theme</button>
+  </form>
+</section>
+
+      <!-- Resume/CV Editor -->
+<section id="resume" class="editor-section" aria-label="Resume editor">
+  <h2 class="section-title"><i class="fas fa-file-alt"></i> Resume/CV</h2>
+
+  <div class="form-group">
+    <label>Current Resume</label>
+    <div class="file-upload">
+      <div id="resume-preview" class="file-preview">
+        <i class="fas fa-file-pdf file-icon"></i>
+        <div class="file-info">
+          <a id="resume-link" href="#" target="_blank">No resume uploaded</a>
+          <small id="resume-size"></small>
+        </div>
+      </div>
+      <input type="file" id="resume-input" accept=".pdf,.doc,.docx" style="display:none;" />
+      <button type="button" id="upload-resume" class="btn-secondary">Upload Resume</button>
+      <p>The Resume Auto-Upload It Takes Some Seconds</p>
+    </div>
+  </div>
+</section>
+
+      <!-- Skills Editor -->
+      <section id="skills" class="editor-section" aria-label="Skill editor">
+        <h2 class="section-title"><i class="fas fa-tools"></i> Skills</h2>
+        <button id="add-skill" class="btn-success">+ New Skill</button>
+        <div id="skill-container" class="items-grid" aria-live="polite"></div>
+
+        <form id="skill-form" class="section-form hidden" novalidate>
+          <input type="hidden" id="skill-id" name="id" />
+          <div class="form-group">
+            <label for="skill-name">Name</label>
+            <input type="text" id="skill-name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="skill-proficiency">Proficiency (0-100)</label>
+            <input type="number" id="skill-proficiency" name="proficiency" min="0" max="100" required />
+          </div>
+          <div class="form-group">
+            <label for="skill-category">Category</label>
+            <select id="skill-category" name="category" required>
+              <option value="technical">Technical</option>
+              <option value="soft">Soft</option>
+              <option value="language">Language</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="skill-icon">Icon URL</label>
+            <input type="text" id="skill-icon" name="icon" />
+          </div>
+          <button type="submit" class="btn-primary">Save Skill</button>
+          <button type="button" id="cancel-skill" class="btn-secondary">Cancel</button>
+        </form>
+      </section>
+
+      <!-- Language Proficiency Editor -->
+      <section id="languages" class="editor-section" aria-label="Language Proficiency editor">
+        <h2 class="section-title"><i class="fas fa-language"></i> Language Proficiency</h2>
+        <button id="add-language" class="btn-success">+ New Language</button>
+        <div id="language-container" class="items-grid" aria-live="polite"></div>
+
+        <form id="language-form" class="section-form hidden" novalidate>
+          <input type="hidden" id="language-id" name="id" />
+          <div class="form-group">
+            <label for="language-name">Language Name</label>
+            <input type="text" id="language-name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="language-proficiency">Proficiency Level</label>
+            <select id="language-proficiency" name="proficiency" required>
+              <option value="native">Native</option>
+              <option value="fluent">Fluent</option>
+              <option value="advanced">Advanced</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="elementary">Elementary</option>
+              <option value="beginner">Beginner</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="language-reading">Reading Level (0-100)</label>
+            <input type="number" id="language-reading" name="reading" min="0" max="100" required />
+          </div>
+          <div class="form-group">
+            <label for="language-writing">Writing Level (0-100)</label>
+            <input type="number" id="language-writing" name="writing" min="0" max="100" required />
+          </div>
+          <div class="form-group">
+            <label for="language-speaking">Speaking Level (0-100)</label>
+            <input type="number" id="language-speaking" name="speaking" min="0" max="100" required />
+          </div>
+          <div class="form-group">
+            <label for="language-listening">Listening Level (0-100)</label>
+            <input type="number" id="language-listening" name="listening" min="0" max="100" required />
+          </div>
+          <div class="form-group">
+            <label for="language-certifications">Certifications</label>
+            <input type="text" id="language-certifications" name="certifications" placeholder="TOEFL, IELTS, DELF, etc." />
+          </div>
+          <div class="form-group">
+            <label for="language-years">Years of Experience</label>
+            <input type="number" id="language-years" name="years" min="0" />
+          </div>
+          <div class="form-group">
+            <label for="language-flag">Country Flag Icon (optional)</label>
+            <input type="text" id="language-flag" name="flag" placeholder="fi fi-gb (for flag-icons library)" />
+          </div>
+          <button type="submit" class="btn-primary">Save Language</button>
+          <button type="button" id="cancel-language" class="btn-secondary">Cancel</button>
+        </form>
+      </section>
+
+      <!-- Experience Editor -->
+      <section id="experience" class="editor-section" aria-label="Experience editor">
+        <h2 class="section-title"><i class="fas fa-briefcase"></i> Experience</h2>
+        <button id="add-experience" class="btn-success">+ New Experience</button>
+        <div id="experience-container" class="items-grid" aria-live="polite"></div>
+
+        <form id="experience-form" class="section-form hidden" novalidate>
+          <input type="hidden" id="experience-id" name="id" />
+          <div class="form-group">
+            <label for="experience-title">Title</label>
+            <input type="text" id="experience-title" name="title" required />
+          </div>
+          <div class="form-group">
+            <label for="experience-company">Company</label>
+            <input type="text" id="experience-company" name="company" required />
+          </div>
+          <div class="form-group">
+            <label for="experience-location">Location</label>
+            <input type="text" id="experience-location" name="location" />
+          </div>
+          <div class="form-group">
+            <label for="experience-from">From Date</label>
+            <input type="date" id="experience-from" name="from" required />
+          </div>
+          <div class="form-group">
+            <label for="experience-to">To Date</label>
+            <input type="date" id="experience-to" name="to" />
+          </div>
+          <div class="form-group">
+            <label for="experience-current">Current Position</label>
+            <input type="checkbox" id="experience-current" name="current" />
+          </div>
+          <div class="form-group">
+            <label for="experience-description">Description</label>
+            <textarea id="experience-description" name="description"></textarea>
+          </div>
+          <button type="submit" class="btn-primary">Save Experience</button>
+          <button type="button" id="cancel-experience" class="btn-secondary">Cancel</button>
+        </form>
+      </section>
+
+      <!-- Projects Editor -->
+      <section id="projects" class="editor-section" aria-label="Projects editor">
+        <h2 class="section-title"><i class="fas fa-code"></i> Projects</h2>
+        <button id="add-project" class="btn-success">+ New Project</button>
+        <div id="projects-container" class="items-grid" aria-live="polite"></div>
+
+        <form id="project-form" class="section-form hidden" novalidate>
+          <input type="hidden" id="project-id" name="id" />
+          <div class="form-group">
+            <label for="project-title">Title</label>
+            <input type="text" id="project-title" name="title" required />
+          </div>
+          <div class="form-group">
+            <label for="project-description">Description</label>
+            <textarea id="project-description" name="description" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="project-tools">Tools (comma separated)</label>
+            <input type="text" id="project-tools" name="tools" required />
+          </div>
+          <div class="form-group">
+            <label for="project-link">Project URL</label>
+            <input type="url" id="project-link" name="link" required />
+          </div>
+          <div class="form-group">
+            <label for="project-featured">Featured</label>
+            <input type="checkbox" id="project-featured" name="featured" />
+          </div>
+          <button type="submit" class="btn-primary">Save Project</button>
+          <button type="button" id="cancel-project" class="btn-secondary">Cancel</button>
+        </form>
+      </section>
+
+      <!-- Research Editor -->
+      <section id="research" class="editor-section" aria-label="Research editor">
+        <h2 class="section-title"><i class="fas fa-book"></i> Research</h2>
+        <button id="add-research" class="btn-success">+ New Research</button>
+        <div id="research-container" class="items-grid" aria-live="polite"></div>
+
+        <form id="research-form" class="section-form hidden" novalidate>
+          <input type="hidden" id="research-id" name="id" />
+          <div class="form-group">
+            <label for="research-title">Title</label>
+            <input type="text" id="research-title" name="title" required />
+          </div>
+          <div class="form-group">
+            <label for="research-abstract">Abstract</label>
+            <textarea id="research-abstract" name="abstract" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="research-authors">Authors (comma separated)</label>
+            <input type="text" id="research-authors" name="authors" required />
+          </div>
+          <div class="form-group">
+            <label for="research-year">Publication Year</label>
+            <input type="number" id="research-year" name="year" min="1900" max="2099" required />
+          </div>
+          <div class="form-group">
+            <label for="research-journal">Journal/Conference</label>
+            <input type="text" id="research-journal" name="journal" />
+          </div>
+          <div class="form-group">
+            <label for="research-doi">DOI</label>
+            <input type="text" id="research-doi" name="doi" />
+          </div>
+          <div class="form-group">
+            <label for="research-pdfLink">PDF Link</label>
+            <input type="url" id="research-pdfLink" name="pdfLink" />
+          </div>
+          <div class="form-group">
+            <label for="research-isPublished">Published</label>
+            <input type="checkbox" id="research-isPublished" name="isPublished" />
+          </div>
+          <button type="submit" class="btn-primary">Save Research</button>
+          <button type="button" id="cancel-research" class="btn-secondary">Cancel</button>
+        </form>
+      </section>
+
+      <!-- Certificates Editor -->
+      <section id="certificates" class="editor-section" aria-label="Certificate editor">
+        <h2 class="section-title"><i class="fas fa-certificate"></i> Certificates</h2>
+        <button id="add-certificate" class="btn-success">+ New Certificate</button>
+        <div id="certificate-container" class="items-grid" aria-live="polite"></div>
+
+        <form id="certificate-form" class="section-form hidden" novalidate>
+          <input type="hidden" id="certificate-id" name="id" />
+          <div class="form-group">
+            <label for="certificate-title">Title</label>
+            <input type="text" id="certificate-title" name="title" required />
+          </div>
+          <div class="form-group">
+            <label for="certificate-issuingOrganization">Issuing Organization</label>
+            <input type="text" id="certificate-issuingOrganization" name="issuingOrganization" required />
+          </div>
+          <div class="form-group">
+            <label for="certificate-issueDate">Issue Date</label>
+            <input type="date" id="certificate-issueDate" name="issueDate" required />
+          </div>
+          <div class="form-group">
+            <label for="certificate-expirationDate">Expiration Date</label>
+            <input type="date" id="certificate-expirationDate" name="expirationDate" />
+          </div>
+          <div class="form-group">
+            <label for="certificate-credentialId">Credential ID</label>
+            <input type="text" id="certificate-credentialId" name="credentialId" />
+          </div>
+          <div class="form-group">
+            <label for="certificate-credentialUrl">Credential URL</label>
+            <input type="url" id="certificate-credentialUrl" name="credentialUrl" />
+          </div>
+          <div class="form-group">
+            <label for="certificate-skills">Skills (comma separated)</label>
+            <input type="text" id="certificate-skills" name="skills" />
+          </div>
+          <div class="form-group">
+            <label for="certificate-image">Certificate Image</label>
+            <div class="image-upload">
+              <img id="certificate-preview" src="" alt="Certificate Preview" class="image-preview" />
+              <input type="file" id="certificate-image" accept="image/*" />
+            </div>
+          </div>
+          <p>Clicking "Save" takes 5–10s; multiple clicks cause duplicates.</p>
+          <button type="submit" class="btn-primary">Save Certificate</button>
+          <button type="button" id="cancel-certificate" class="btn-secondary">Cancel</button>
+        </form>
+      </section>
+
+      <!-- Open Source Contributions Editor -->
+      <section id="opensource" class="editor-section" aria-label="Open Source Contributions editor">
+        <h2 class="section-title"><i class="fab fa-github"></i> Open Source Contributions</h2>
+        <button id="add-contribution" class="btn-success">+ New Contribution</button>
+        <div id="contribution-container" class="items-grid" aria-live="polite"></div>
+
+        <form id="contribution-form" class="section-form hidden" novalidate>
+          <input type="hidden" id="contribution-id" name="id" />
+          <div class="form-group">
+            <label for="contribution-title">Project Name</label>
+            <input type="text" id="contribution-title" name="title" required />
+          </div>
+          <div class="form-group">
+            <label for="contribution-repo">Repository URL</label>
+            <input type="url" id="contribution-repo" name="repo" required />
+          </div>
+          <div class="form-group">
+            <label for="contribution-description">Contribution Description</label>
+            <textarea id="contribution-description" name="description" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="contribution-type">Type</label>
+            <select id="contribution-type" name="type" required>
+              <option value="feature">Feature Development</option>
+              <option value="bug">Bug Fix</option>
+              <option value="documentation">Documentation</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="code-review">Code Review</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="contribution-pullRequest">Pull Request URL</label>
+            <input type="url" id="contribution-pullRequest" name="pullRequest" />
+          </div>
+          <div class="form-group">
+            <label for="contribution-date">Date</label>
+            <input type="date" id="contribution-date" name="date" required />
+          </div>
+          <div class="form-group">
+            <label for="contribution-status">Status</label>
+            <select id="contribution-status" name="status" required>
+              <option value="merged">Merged</option>
+              <option value="open">Open</option>
+              <option value="closed">Closed</option>
+              <option value="draft">Draft</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="contribution-featured">Featured Contribution</label>
+            <input type="checkbox" id="contribution-featured" name="featured" />
+          </div>
+          <button type="submit" class="btn-primary">Save Contribution</button>
+          <button type="button" id="cancel-contribution" class="btn-secondary">Cancel</button>
+        </form>
+      </section>
+
+      <!-- Awards Editor -->
+<section id="awards" class="editor-section" aria-label="Award editor">
+  <h2 class="section-title"><i class="fas fa-award"></i> Awards</h2>
+  <button id="add-award" class="btn-success">+ New Award</button>
+  <div id="award-container" class="items-grid" aria-live="polite"></div>
+
+  <!-- Form to Add/Edit Awards -->
+  <form id="award-form" class="section-form hidden" enctype="multipart/form-data" novalidate>
+    <input type="hidden" id="award-id" name="id" />
+
+    <div class="form-group">
+      <label for="award-title">Title</label>
+      <input type="text" id="award-title" name="title" required />
+    </div>
+
+    <div class="form-group">
+      <label for="award-issuingOrganization">Issuing Organization</label>
+      <input type="text" id="award-issuingOrganization" name="issuingOrganization" required />
+    </div>
+
+    <div class="form-group">
+      <label for="award-issueDate">Issue Date</label>
+      <input type="date" id="award-issueDate" name="issueDate" required />
+    </div>
+
+    <div class="form-group">
+      <label for="award-description">Description</label>
+      <textarea id="award-description" name="description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="award-category">Category</label>
+      <select id="award-category" name="category" required>
+        <option value="academic">Academic</option>
+        <option value="professional">Professional</option>
+        <option value="sports">Sports</option>
+        <!-- <option value="arts">Arts</option> -->
+        <option value="community">Community</option>
+        <option value="other" selected>Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="award-image">Award Image</label>
+      <div class="image-upload">
+        <img id="award-preview" src="" alt="Award Preview" class="image-preview" />
+        <input type="file" id="award-image" name="image" accept="image/*" />
+      </div>
+    </div>
+    <p>Clicking "Save" takes 5–10s; multiple clicks cause duplicates.</p>
+    <button type="submit" class="btn-primary">Save Award</button>
+    <button type="button" id="cancel-award" class="btn-secondary">Cancel</button>
+  </form>
+</section>
+
+
+      <!-- Career Timeline Editor -->
+      <section id="timeline" class="editor-section" aria-label="Career Timeline editor">
+        <h2 class="section-title"><i class="fas fa-history"></i> Career Timeline</h2>
+        <button id="add-timeline" class="btn-success">+ New Timeline Entry</button>
+        <div id="timeline-container" class="items-grid" aria-live="polite"></div>
+
+        <form id="timeline-form" class="section-form hidden" novalidate>
+          <input type="hidden" id="timeline-id" name="id" />
+          <div class="form-group">
+            <label for="timeline-title">Milestone Title</label>
+            <input type="text" id="timeline-title" name="title" required />
+          </div>
+          <div class="form-group">
+            <label for="timeline-date">Date</label>
+            <input type="date" id="timeline-date" name="date" required />
+          </div>
+          <div class="form-group">
+            <label for="timeline-description">Description</label>
+            <textarea id="timeline-description" name="description" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="timeline-category">Category</label>
+            <select id="timeline-category" name="category" required>
+              <option value="career">Career</option>
+              <option value="education">Education</option>
+              <option value="achievement">Achievement</option>
+              <option value="personal">Personal</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="timeline-icon">Icon Class (FontAwesome)</label>
+            <input type="text" id="timeline-icon" name="icon" placeholder="fas fa-briefcase" />
+          </div>
+          <div class="form-group">
+            <label for="timeline-featured">Featured Milestone</label>
+            <input type="checkbox" id="timeline-featured" name="featured" />
+          </div>
+          <button type="submit" class="btn-primary">Save Timeline Entry</button>
+          <button type="button" id="cancel-timeline" class="btn-secondary">Cancel</button>
+        </form>
+      </section>
+
+     <!-- Portfolio Gallery Editor -->
+<section id="gallery" class="editor-section" aria-label="Portfolio Gallery editor">
+  <h2><i class="fas fa-images"></i> Portfolio Gallery</h2>
+  <button id="add-gallery-item" class="btn-success">+ New Gallery Item</button>
+  <div id="gallery-container" class="items-grid" aria-live="polite"></div>
+
+  <form id="gallery-form" class="gallery-form hidden" novalidate>
+    <input type="hidden" id="gallery-id" name="id" />
+    <div class="form-group">
+      <label for="gallery-title">Title</label>
+      <input type="text" id="gallery-title" name="title" required />
+    </div>
+    <div class="form-group">
+      <label for="gallery-description">Description</label>
+      <textarea id="gallery-description" name="description"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="gallery-category">Category</label>
+      <select id="gallery-category" name="category" required>
+        <option value="design">Design</option>
+        <option value="photography">Photography</option>
+        <option value="illustration">Illustration</option>
+        <option value="ui-ux">UI/UX</option>
+        <option value="3d">3D</option>
+        <option value="video">Video</option>
+        <option value="animation">Animation</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="gallery-image">Image</label>
+      <div class="image-upload">
+        <img id="gallery-preview" src="" alt="Gallery Item Preview" class="image-preview" />
+        <input type="file" id="gallery-image" accept="image/*" required />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="gallery-date">Date Created</label>
+      <input type="date" id="gallery-date" name="date" required />
+    </div>
+    <div class="form-group">
+      <label for="gallery-client">Client (if applicable)</label>
+      <input type="text" id="gallery-client" name="client" />
+    </div>
+    <div class="form-group">
+      <label for="gallery-tools">Tools Used (comma separated)</label>
+      <input type="text" id="gallery-tools" name="tools" placeholder="Photoshop, Illustrator, etc." />
+    </div>
+    <div class="form-group">
+      <label for="gallery-link">External Link (if applicable)</label>
+      <input type="url" id="gallery-link" name="link" />
+    </div>
+    <div class="form-group">
+      <label for="gallery-featured">Featured Work</label>
+      <input type="checkbox" id="gallery-featured" name="featured" />
+    </div>
+    <p>Clicking "Save" takes 5–10s; multiple clicks cause duplicates.</p>
+    <button type="submit" class="btn-primary">Save Gallery Item</button>
+    <button type="button" id="cancel-gallery" class="btn-secondary">Cancel</button>
+  </form>
+</section>
+
+<!-- Other Social Profiles Editor -->
+<section id="social" class="editor-section" aria-label="Social Profiles editor">
+  <h2><i class="fas fa-globe"></i> Other Social Profiles</h2>
+  <button id="add-social" class="btn-success">+ New Social Profile</button>
+  <div id="social-container" class="items-grid" aria-live="polite"></div>
+
+  <form id="social-form" class="social-form hidden" novalidate>
+    <input type="hidden" id="social-id" name="id" />
+    <div class="form-group">
+      <label for="social-platform">Platform</label>
+      <select id="social-platform" name="platform" required>
+        <option value="custom">Custom</option>
+        <option value="credly">Credly</option>
+        <option value="google-cloud">Google Cloud</option>
+        <option value="hackerrank">HackerRank</option>
+        <option value="leetcode">LeetCode</option>
+        <option value="stackoverflow">Stack Overflow</option>
+        <option value="medium">Medium</option>
+        <option value="dev">Dev.to</option>
+        <option value="kaggle">Kaggle</option>
+        <option value="codepen">CodePen</option>
+        <option value="twitter">Twitter</option>
+        <option value="facebook">Facebook</option>
+        <option value="instagram">Instagram</option>
+        <option value="youtube">YouTube</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="social-customName">Custom Platform Name</label>
+      <input type="text" id="social-customName" name="customName" placeholder="Only if 'Custom' is selected above" />
+    </div>
+    <div class="form-group">
+      <label for="social-url">Profile URL</label>
+      <input type="url" id="social-url" name="url" required />
+    </div>
+    <div class="form-group">
+      <label for="social-username">Username/Handle</label>
+      <input type="text" id="social-username" name="username" />
+    </div>
+    <div class="form-group">
+      <label for="social-icon">Icon Class (FontAwesome)</label>
+      <input type="text" id="social-icon" name="icon" placeholder="fab fa-twitter" />
+    </div>
+    <div class="form-group">
+      <label for="social-description">Brief Description</label>
+      <textarea id="social-description" name="description" placeholder="Optional description of your activity on this platform"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="social-featured">Featured Profile</label>
+      <input type="checkbox" id="social-featured" name="featured" />
+    </div>
+    <button type="submit" class="btn-primary">Save Social Profile</button>
+    <button type="button" id="cancel-social" class="btn-secondary">Cancel</button>
+  </form>
+</section>
+  </div>
+
+  
+  <div id="toast-container" class="toast-container">
+    <!-- Toasts will be inserted here -->
+  </div>
+  
+
+<script src="js/useradmin.js" ></script>
+</body>
+</html>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AlfaGroups-AlfaVox</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --gold-primary: #FFD700;
+      --gold-secondary: #F4C430;
+      --gold-dark: #D4AF37;
+      --gold-light: #FFECB3;
+      --dark-bg: #0A0A0A;
+      --text-light: #F5F5F5;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--dark-bg);
+      color: var(--text-light);
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 20%),
+        radial-gradient(circle at 80% 70%, rgba(244, 196, 48, 0.15) 0%, transparent 20%),
+        linear-gradient(to bottom right, #0A0A0A, #1A1A1A);
+    }
+    
+    .golden-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%23FFD700" opacity="0.03" d="M30,10 Q50,5 70,10 Q95,15 90,40 Q85,65 70,90 Q50,95 30,90 Q15,65 10,40 Q5,15 30,10 Z"/></svg>');
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .container {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+    }
+    
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 2rem;
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    
+    .logo i {
+      font-size: 4rem;
+      color: var(--dark-bg);
+    }
+    
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(to right, var(--gold-primary), var(--gold-secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+      letter-spacing: 1px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 3rem;
+      max-width: 600px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+    
+    .timer-container {
+      background: rgba(10, 10, 10, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 15px;
+      padding: 2rem 3rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                  inset 0 0 15px rgba(255, 215, 0, 0.1);
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .timer-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        transparent,
+        transparent,
+        transparent,
+        rgba(255, 215, 0, 0.1),
+        transparent,
+        transparent,
+        transparent
+      );
+      transform: rotate(30deg);
+      animation: shine 6s linear infinite;
+    }
+    
+    .timer {
+      display: flex;
+      gap: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .timer-segment {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .timer-value {
+      font-size: 3.5rem;
+      font-weight: 700;
+      background: linear-gradient(to bottom, var(--gold-primary), var(--gold-dark));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      min-width: 80px;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    
+    .timer-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+      margin-top: 0.5rem;
+      opacity: 0.8;
+    }
+    
+    .divider {
+      font-size: 2.5rem;
+      color: var(--gold-primary);
+      opacity: 0.5;
+      display: flex;
+      align-items: center;
+    }
+    
+    .notify-btn {
+      background: linear-gradient(to right, var(--gold-primary), var(--gold-secondary));
+      color: var(--dark-bg);
+      border: none;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .notify-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+    }
+    
+    .notify-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, var(--gold-secondary), var(--gold-primary));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+    
+    .notify-btn:hover::before {
+      opacity: 1;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    
+    .social-link {
+      color: var(--gold-light);
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+      opacity: 0.7;
+    }
+    
+    .social-link:hover {
+      color: var(--gold-primary);
+      opacity: 1;
+      transform: translateY(-3px);
+    }
+    
+    .gold-particle {
+      position: absolute;
+      background: var(--gold-primary);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
+      50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(255, 215, 0, 0.6); }
+      100% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
+    }
+    
+    @keyframes shine {
+      0% { transform: rotate(30deg) translate(-30%, -30%); }
+      100% { transform: rotate(30deg) translate(30%, 30%); }
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .timer {
+        gap: 1rem;
+      }
+      
+      .timer-value {
+        font-size: 2.5rem;
+        min-width: 60px;
+      }
+      
+      .divider {
+        font-size: 2rem;
+      }
+      
+      .timer-container {
+        padding: 1.5rem 2rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .timer {
+        gap: 0.5rem;
+      }
+      
+      .timer-value {
+        font-size: 1.8rem;
+        min-width: 40px;
+      }
+      
+      .divider {
+        font-size: 1.5rem;
+      }
+      
+      .timer-label {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="golden-overlay"></div>
+  
+  <div class="container">
+    <div class="logo">
+      <i class="fas fa-crown"></i>
+    </div>
+    
+    <h1>AlfaVox CMS-Portfolio</h1>
+    <p class="subtitle">Your projects, your passion, your identity — all in one place. From first-year engineering to your first job offer — AlfaVox grows with you.</p>
+    
+    <div class="timer-container">
+      <div class="timer" id="countdown">
+        <div class="timer-segment">
+          <div class="timer-value" id="days">00</div>
+          <div class="timer-label">Days</div>
+        </div>
+        <div class="divider">:</div>
+        <div class="timer-segment">
+          <div class="timer-value" id="hours">00</div>
+          <div class="timer-label">Hours</div>
+        </div>
+        <div class="divider">:</div>
+        <div class="timer-segment">
+          <div class="timer-value" id="minutes">00</div>
+          <div class="timer-label">Minutes</div>
+        </div>
+        <div class="divider">:</div>
+        <div class="timer-segment">
+          <div class="timer-value" id="seconds">00</div>
+          <div class="timer-label">Seconds</div>
+        </div>
+      </div>
+    </div>
+    
+    <button class="notify-btn">
+      <i class="fas fa-bell" style="margin-right: 8px;"></i>
+      Notify Me on Launch
+    </button>
+    
+    <div class="social-links">
+      <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script>
+    // Countdown Timer
+    const launchDate = new Date("June 5, 2025 10:00:00").getTime();
+    
+    function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = launchDate - now;
+
+  if (distance <= 0) {
+    window.location.href = "land.html";  // 🔁 Auto redirect
+    return;
+  }
+      
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      document.getElementById("days").textContent = days.toString().padStart(2, '0');
+      document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
+      document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+      document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
+      
+      // Animate the changing numbers
+      if (seconds === 59) {
+        gsap.fromTo("#seconds", 
+          { y: -10, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5 }
+        );
+      }
+      if (minutes === 59 && seconds === 59) {
+        gsap.fromTo("#minutes", 
+          { y: -10, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5 }
+        );
+      }
+      if (hours === 23 && minutes === 59 && seconds === 59) {
+        gsap.fromTo("#hours", 
+          { y: -10, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5 }
+        );
+      }
+      if (days !== parseInt(document.getElementById("days").textContent) && hours === 23 && minutes === 59 && seconds === 59) {
+        gsap.fromTo("#days", 
+          { y: -10, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5 }
+        );
+      }
+    }
+    
+    // Update immediately and then every second
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    
+    // Create golden particles
+    function createParticles() {
+      const particleCount = 30;
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement("div");
+        particle.classList.add("gold-particle");
+        
+        const size = Math.random() * 5 + 2;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const opacity = Math.random() * 0.5 + 0.1;
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 10;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.opacity = opacity;
+        
+        document.body.appendChild(particle);
+        
+        // Animate particle
+        gsap.to(particle, {
+          x: (Math.random() - 0.5) * 100,
+          y: (Math.random() - 0.5) * 100,
+          duration: duration,
+          delay: delay,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+    }
+    
+    // Button animation
+    const notifyBtn = document.querySelector(".notify-btn");
+    notifyBtn.addEventListener("click", function() {
+      gsap.to(notifyBtn, {
+        scale: 0.95,
+        duration: 0.1,
+        yoyo: true,
+        repeat: 1
+      });
+      
+      // Show a confirmation (you would replace this with actual notification logic)
+      const originalText = notifyBtn.innerHTML;
+      notifyBtn.innerHTML = '<i class="fas fa-check" style="margin-right: 8px;"></i> You will be notified!';
+      
+      setTimeout(() => {
+        notifyBtn.innerHTML = originalText;
+      }, 2000);
+    });
+    
+    // Initialize particles when page loads
+    window.addEventListener("load", createParticles);
+    
+    // Logo animation
+    gsap.to(".logo", {
+      rotation: 360,
+      duration: 20,
+      repeat: -1,
+      ease: "none"
+    });
+  </script>
+</body>
+</html>

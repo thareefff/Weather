@@ -1,0 +1,15 @@
+---
+- name: Multi-Environment Deployment Management
+  hosts: localhost
+  connection: local
+  vars:
+    environments:
+      - staging
+      - production
+    
+  tasks:
+    - name: Deploy to multiple environments
+      include_tasks: playbook-gke-deploy.yml
+      vars:
+        deploy_environment: "{{ item }}"
+      loop: "{{ environments }}"

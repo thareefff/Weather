@@ -1,0 +1,27 @@
+---
+- name: Rollback Application Deployment
+  hosts: localhost
+  connection: local
+  
+  tasks:
+    - name: Get current deployment image
+      shell: |
+        kubectl get deployment aifa-backend -o jsonpath='{.spec.template.spec.containers[0].image}'
+      register: current_image
+      args:
+        executable: /bin/bash
+
+    - name: Rollback to previous deployment
+      shell: |
+        kubectl rollout undo deployment/aifa-backend
+      args:
+        executable: /bin/bash
+
+    - name: Verify rollback success
+      shell: |
+        kubectl rollout status deployment/aifa-backend --timeout=180s
+      args:
+        executable: /bin/bash
+
+    - debug:
+        msg: "Rollback completed. Previous image: {{ current_image.stdout }}"

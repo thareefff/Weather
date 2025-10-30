@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Weather Forecast (No API Key)</title>
+  <style>
+    :root{
+      --bg:#0f172a; --card:#0b1220; --accent:#60a5fa; --muted:#94a3b8; --glass: rgba(255,255,255,0.03);
+    }
+    *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    body{
+      margin:0;background:linear-gradient(180deg,#071129 0%, #0c1830 100%);color:#e6eef8;
+      min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px;
+    }
+    .wrapper{
+      width:100%;max-width:900px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:14px;padding:20px;box-shadow:0 10px 30px rgba(2,6,23,0.6);
+      backdrop-filter: blur(6px);
+    }
+
+    header{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    .search{
+      display:flex;gap:8px;margin:12px 0 18px;
+    }
+    .search input{
+      flex:1;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);
+      background:var(--glass);color:inherit;outline:none;font-size:15px;
+    }
+    .search button{
+      padding:10px 14px;border-radius:10px;border:none;background:var(--accent);color:#022;
+      font-weight:600;cursor:pointer;
+    }
+
+    .content{display:grid;grid-template-columns: 1fr 340px;gap:18px}
+    @media (max-width:880px){ .content{grid-template-columns:1fr; } }
+
+    .main-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+    }
+    .current{
+      display:flex;align-items:center;gap:14px;
+    }
+    .temp{
+      font-size:48px;font-weight:700;
+    }
+    .meta{color:var(--muted);font-size:14px}
+
+    .forecast{display:flex;gap:8px;margin-top:12px;overflow:auto;padding-bottom:6px}
+    .day{
+      min-width:110px;background:rgba(255,255,255,0.02);padding:10px;border-radius:10px;text-align:center;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .day .d{font-weight:600;margin-bottom:6px}
+    .small{font-size:13px;color:var(--muted)}
+
+    .side{
+      display:flex;flex-direction:column;gap:10px;
+    }
+    .card{
+      background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);
+    }
+    .loading{color:var(--muted);font-size:14px}
+    footer{margin-top:14px;color:var(--muted);font-size:12px;text-align:center}
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <div>
+        <h1>Weather Forecast (No API Key)</h1>
+        <p class="lead">Search any city — uses Open-Meteo (free, no key required).</p>
+      </div>
+    </header>
+
+    <div class="search">
+      <input id="q" placeholder="Type city (e.g., Chennai, London, Tokyo)" />
+      <button id="searchBtn">Search</button>
+    </div>
+
+    <div class="content">
+      <div class="main-card">
+        <div id="status" class="loading">Enter a city and press Search</div>
+
+        <div id="currentWrap" style="display:none">
+          <div class="current">
+            <div>
+              <div id="place" style="font-weight:700;font-size:16px"></div>
+              <div class="meta" id="timeLocal"></div>
+            </div>
+            <div style="margin-left:auto;text-align:right">
+              <div class="temp" id="temp">--°C</div>
+              <div class="meta" id="condText">--</div>
+            </div>
+          </div>
+
+          <div class="forecast" id="forecast"></div>
+        </div>
+      </div>
+
+      <div class="side">
+        <div class="card">
+          <div style="font-weight:700">Details</div>
+          <div style="height:8px"></div>
+          <div class="small">Wind: <span id="wind">-</span></div>
+          <div class="small">Humidity: <span id="humidity">-</span></div>
+          <div class="small">Pressure: <span id="pressure">-</span></div>
+          <div class="small">Timezone: <span id="timezone">-</span></div>
+        </div>
+
+        <div class="card">
+          <div style="font-weight:700">About</div>
+          <div style="height:8px"></div>
+          <div class="small">This demo fetches geocoding + forecast from Open-Meteo (no API key). Data includes current weather + daily forecast.</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>Data from Open-Meteo — no key required. (If a city is ambiguous, try a more specific name.)</footer>
+  </div>
+
+  <script>
+    // Utility: simple map from weathercode to text (Open-Meteo uses WMO codes)
+    const weatherCodes = {
+      0: "Clear",
+      1: "Mainly clear",
+      2: "Partly cloudy",
+      3: "Overcast",
+      45: "Fog",
+      48: "Depositing rime fog",
+      51: "Light drizzle",
+      53: "Moderate drizzle",
+      55: "Dense drizzle",
+      56: "Light freezing drizzle",
+      57: "Dense freezing drizzle",
+      61: "Slight rain",
+      63: "Moderate rain",
+      65: "Heavy rain",
+      66: "Light freezing rain",
+      67: "Heavy freezing rain",
+      71: "Slight snow",
+      73: "Moderate snow",
+      75: "Heavy snow",
+      80: "Slight rain showers",
+      81: "Moderate rain showers",
+      82: "Violent rain showers",
+      95: "Thunderstorm",
+      96: "Thunderstorm with slight hail",
+      99: "Thunderstorm with heavy hail"
+    };
+
+    const $ = id => document.getElementById(id);
+    const searchBtn = $('searchBtn');
+    const input = $('q');
+
+    async function searchCity() {
+      const q = input.value.trim();
+      if(!q){ alert('Please enter a city name'); return; }
+      setStatus('Searching for "'+q+'" ...');
+
+      try {
+        // 1) Geocoding: get lat/lon from Open-Meteo geocoding endpoint
+        const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=5&language=en&format=json`;
+        const geoResp = await fetch(geoUrl);
+        if(!geoResp.ok) throw new Error('Geocoding request failed');
+        const geo = await geoResp.json();
+        if(!geo.results || geo.results.length === 0) {
+          setStatus('No location found. Try a different city name.');
+          return;
+        }
+
+        // pick the top match
+        const place = geo.results[0];
+        const {latitude, longitude, timezone, name, country, admin1} = place;
+        $('place').textContent = `${name}${admin1 ? ', '+admin1 : ''}, ${country}`;
+        $('timezone').textContent = timezone || 'auto';
+
+        setStatus('Fetching forecast for ' + name + ' ...');
+
+        // 2) Forecast: request current weather + daily forecast
+        // We'll ask for current weather, daily min/max, and a daily weathercode for icons/text
+        const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&timezone=auto&current_weather=true&daily=temperature_2m_max,temperature_2m_min,weathercode&temperature_unit=celsius&windspeed_unit=kmh&precipitation_unit=mm`;
+        const fResp = await fetch(forecastUrl);
+        if(!fResp.ok) throw new Error('Forecast request failed');
+        const data = await fResp.json();
+
+        renderWeather(data);
+      } catch (err) {
+        console.error(err);
+        setStatus('Error: ' + (err.message || err));
+      }
+    }
+
+    function setStatus(msg) {
+      $('status').textContent = msg;
+      $('status').style.display = 'block';
+      $('currentWrap').style.display = 'none';
+    }
+
+    function renderWeather(data) {
+      // show current
+      const cur = data.current_weather || null;
+      if(!cur){
+        setStatus('No current weather available from provider.');
+        return;
+      }
+
+      $('temp').textContent = Math.round(cur.temperature) + '°C';
+      $('condText').textContent = weatherCodes[cur.weathercode] || ('Weather code ' + cur.weathercode);
+      $('timeLocal').textContent = 'Local time: ' + (data.timezone ? data.timezone : '') + ' • Observed: ' + cur.time;
+      $('wind').textContent = cur.windspeed + ' km/h • dir ' + cur.winddirection + '°';
+
+      // Note: Open-Meteo doesn't always include humidity/pressure in current_weather object.
+      // But daily arrays won't have them. We'll show dashes if missing.
+      $('humidity').textContent = data.hourly && data.hourly.relativehumidity_2m ? '-' : '-';
+      $('pressure').textContent = data.hourly && data.hourly.surface_pressure ? '-' : '-';
+
+      // daily forecast arrays:
+      const days = (data.daily && data.daily.time) ? data.daily.time.map((t,i)=>({
+        date: data.daily.time[i],
+        max: data.daily.temperature_2m_max[i],
+        min: data.daily.temperature_2m_min[i],
+        code: data.daily.weathercode[i]
+      })) : [];
+
+      // render forecast strip
+      const fc = $('forecast');
+      fc.innerHTML = '';
+      days.forEach(d => {
+        const dd = new Date(d.date);
+        const dayshort = dd.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
+        const codeText = weatherCodes[d.code] || d.code;
+        const card = document.createElement('div');
+        card.className = 'day';
+        card.innerHTML = `
+          <div class="d">${dayshort}</div>
+          <div style="font-size:20px;font-weight:700">${Math.round(d.max)}° / ${Math.round(d.min)}°</div>
+          <div class="small">${codeText}</div>
+        `;
+        fc.appendChild(card);
+      });
+
+      $('status').style.display = 'none';
+      $('currentWrap').style.display = 'block';
+    }
+
+    // events
+    searchBtn.addEventListener('click', searchCity);
+    input.addEventListener('keydown', (e)=>{ if(e.key==='Enter') searchCity(); });
+
+    // Helpful tip: Example: auto-populate current location by browser geolocation (optional)
+    // (uncomment to use)
+    /*
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(async pos=>{
+        const lat = pos.coords.latitude, lon = pos.coords.longitude;
+        // reverse geocode? For simplicity we can call Open-Meteo reverse geocode or directly forecast with coords.
+      });
+    }
+    */
+  </script>
+</body>
+</html>

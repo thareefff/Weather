@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Alfa Vox</title>
+   <link rel="icon" href="favicon.png" type="image/png">
+  <style>
+    :root {
+      --royal-blue: #2B3A67;
+      --gold-accent: #C9B037;
+      --crimson: #7B1E1E;
+      --ivory: #FDF6E3;
+      --charcoal: #1C1C1C;
+      --steel-gray: #58626D;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--ivory);
+      color: var(--charcoal);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .auth-container {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 450px;
+      overflow: hidden;
+    }
+
+    .auth-header {
+      background-color: var(--royal-blue);
+      color: white;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .auth-header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+    }
+
+    .auth-header p {
+      opacity: 0.8;
+    }
+
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid #eee;
+    }
+.status-message.error a {
+    color: var(--gold-accent);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.status-message.error a:hover {
+    color: #e0b420;
+}
+    .auth-tab {
+      flex: 1;
+      padding: 15px;
+      text-align: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--steel-gray);
+      transition: all 0.3s;
+    }
+.status-message.error a {
+    color: var(--gold-accent);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.status-message.error a:hover {
+    color: #e0b420;
+}
+    .auth-tab.active {
+      color: var(--royal-blue);
+      border-bottom: 3px solid var(--gold-accent);
+    }
+
+    .auth-content {
+      padding: 25px;
+    }
+
+    .auth-form {
+      display: none;
+    }
+
+    .auth-form.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--royal-blue);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--royal-blue);
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--steel-gray);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background-color: var(--royal-blue);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #1d2a4d;
+    }
+
+    .btn-google {
+      background-color: white;
+      color: var(--charcoal);
+      border: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-google:hover {
+      background-color: #f5f5f5;
+    }
+
+    .google-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      color: var(--steel-gray);
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .divider::before {
+      margin-right: 10px;
+    }
+
+    .divider::after {
+      margin-left: 10px;
+    }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+
+    .auth-footer a {
+      color: var(--royal-blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .forgot-password {
+      display: block;
+      text-align: right;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+    }
+
+    .status-message {
+      padding: 12px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .status-message.visible {
+      display: block;
+    }
+
+    .success {
+      background-color: #e6f7ee;
+      color: #0a5c36;
+      border-left: 4px solid #0a5c36;
+    }
+
+    .error {
+      background-color: #fde8e8;
+      color: var(--crimson);
+      border-left: 4px solid var(--crimson);
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-header">
+      <h1>Welcome to Alfa Vox</h1>
+      <p>Manage your portfolio with ease</p>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">Login</button>
+      <button class="auth-tab" data-tab="signup">Sign Up</button>
+    </div>
+
+    <div class="auth-content">
+      <!-- Login Form -->
+      <div id="loginForm" class="auth-form active">
+        <div id="loginStatus" class="status-message"></div>
+        
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email">
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password">
+            <button class="toggle-password" type="button" data-target="loginPassword">👁️</button>
+          </div>
+          <a href="#" class="forgot-password" id="forgotPassword">Forgot password?</a>
+        </div>
+
+        <button id="loginBtn" class="btn btn-primary">Login</button>
+
+        <div class="divider">OR</div>
+
+        <button id="googleLoginBtn" class="btn btn-google">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
+          Continue with Google
+        </button>
+
+        <div class="auth-footer">
+          Don't have an account? <a href="#" id="switchToSignup">Sign up</a>
+        </div>
+      </div>
+
+      <!-- Signup Form -->
+      <div id="signupForm" class="auth-form">
+        <div id="signupStatus" class="status-message"></div>
+        
+        <div class="form-group">
+          <label for="signupName">Full Name</label>
+          <input type="text" id="signupName" class="form-control" placeholder="Enter your full name">
+        </div>
+
+        <div class="form-group">
+          <label for="signupEmail">Email</label>
+          <input type="email" id="signupEmail" class="form-control" placeholder="Enter your email">
+        </div>
+
+        <div class="form-group">
+          <label for="signupPassword">Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="signupPassword" class="form-control" placeholder="Create a password (min 6 chars)">
+            <button class="toggle-password" type="button" data-target="signupPassword">👁️</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password">
+            <button class="toggle-password" type="button" data-target="confirmPassword">👁️</button>
+          </div>
+        </div>
+
+        <button id="signupBtn" class="btn btn-primary">Create Account</button>
+
+        <div class="divider">OR</div>
+
+        <button id="googleSignupBtn" class="btn btn-google">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="google-icon">
+          Continue with Google
+        </button>
+
+        <div class="auth-footer">
+          Already have an account? <a href="#" id="switchToLogin">Login</a>
+        </div>
+      </div>
+
+      <!-- Forgot Password Form -->
+      <div id="forgotPasswordForm" class="auth-form">
+        <div id="forgotPasswordStatus" class="status-message"></div>
+        
+        <div class="form-group">
+          <label for="forgotPasswordEmail">Email</label>
+          <input type="email" id="forgotPasswordEmail" class="form-control" placeholder="Enter your email">
+        </div>
+
+        <button id="resetPasswordBtn" class="btn btn-primary">Reset Password</button>
+
+        <div class="auth-footer">
+          Remember your password? <a href="#" id="backToLogin">Back to login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  
+  <script>
+    // Firebase configuration (same as in land.js)
+    const firebaseConfig = {
+    apiKey: "AIzaSyDEj38aSEXvWivHOr_J-28mQziW3L56y6Q",
+    authDomain: "alfa-vox-portfolio.firebaseapp.com",
+    projectId: "alfa-vox-portfolio",
+    storageBucket: "alfa-vox-portfolio.appspot.com",
+    messagingSenderId: "326170168205",
+    appId: "1:326170168205:web:4c68b1b06ca6753808cbc4",
+    measurementId: "G-37ZVK4BRY4"
+};
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // DOM elements
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+    const tabs = document.querySelectorAll('.auth-tab');
+    const switchToSignup = document.getElementById('switchToSignup');
+    const switchToLogin = document.getElementById('switchToLogin');
+    const forgotPassword = document.getElementById('forgotPassword');
+    const backToLogin = document.getElementById('backToLogin');
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const resetPasswordBtn = document.getElementById('resetPasswordBtn');
+    const googleLoginBtn = document.getElementById('googleLoginBtn');
+    const googleSignupBtn = document.getElementById('googleSignupBtn');
+    const togglePasswordBtns = document.querySelectorAll('.toggle-password');
+
+    // Show form based on tab
+    function showForm(formId) {
+      document.querySelectorAll('.auth-form').forEach(form => {
+        form.classList.remove('active');
+      });
+      document.getElementById(formId).classList.add('active');
+    }
+
+    // Switch between tabs
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        showForm(`${tab.dataset.tab}Form`);
+      });
+    });
+
+    // Switch to signup
+    switchToSignup.addEventListener('click', (e) => {
+      e.preventDefault();
+      tabs.forEach(t => t.classList.remove('active'));
+      document.querySelector('[data-tab="signup"]').classList.add('active');
+      showForm('signupForm');
+    });
+
+    // Switch to login
+    switchToLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      tabs.forEach(t => t.classList.remove('active'));
+      document.querySelector('[data-tab="login"]').classList.add('active');
+      showForm('loginForm');
+    });
+
+    // Show forgot password form
+    forgotPassword.addEventListener('click', (e) => {
+      e.preventDefault();
+      showForm('forgotPasswordForm');
+    });
+
+    // Back to login from forgot password
+    // In the backToLogin event listener, add this:
+backToLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+    // Save the email value before switching
+    const email = document.getElementById('forgotPasswordEmail').value;
+    
+    tabs.forEach(t => t.classList.remove('active'));
+    document.querySelector('[data-tab="login"]').classList.add('active');
+    showForm('loginForm');
+    
+    // Set the email in login form if it exists
+    document.getElementById('loginEmail').value = email;
+});
+
+    // Toggle password visibility
+    togglePasswordBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        if (target.type === 'password') {
+          target.type = 'text';
+          btn.textContent = '🙈';
+        } else {
+          target.type = 'password';
+          btn.textContent = '👁️';
+        }
+      });
+    });
+
+    // Show status message
+    function showStatusMessage(message, type, elementId) {
+      const element = document.getElementById(elementId);
+      element.textContent = message;
+      element.className = `status-message ${type} visible`;
+      setTimeout(() => {
+        element.classList.remove('visible');
+      }, 5000);
+    }
+
+    // Handle login
+    loginBtn.addEventListener('click', () => {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      
+      if (!email || !password) {
+        showStatusMessage('Please fill in all fields', 'error', 'loginStatus');
+        return;
+      }
+
+      loginBtn.innerHTML = '<div class="loading"></div> Logging in...';
+      
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Redirect to main app
+          window.location.href = 'index.html';
+        })
+        .catch((error) => {
+          let errorMessage = 'Login failed. ';
+          switch (error.code) {
+            case 'auth/user-not-found':
+              errorMessage += 'No user found with this email.';
+              break;
+            case 'auth/wrong-password':
+              errorMessage += 'Incorrect password.';
+              break;
+            case 'auth/invalid-email':
+              errorMessage += 'Invalid email format.';
+              break;
+            default:
+              errorMessage += 'Please try again.';
+          }
+          showStatusMessage(errorMessage, 'error', 'loginStatus');
+          loginBtn.textContent = 'Login';
+        });
+    });
+
+   // Update the signup button handler in login.html
+signupBtn.addEventListener('click', () => {
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    if (!name || !email || !password || !confirmPassword) {
+        showStatusMessage('Please fill in all fields', 'error', 'signupStatus');
+        return;
+    }
+    
+    if (password !== confirmPassword) {
+        showStatusMessage('Passwords do not match', 'error', 'signupStatus');
+        return;
+    }
+    
+    if (password.length < 6) {
+        showStatusMessage('Password must be at least 6 characters', 'error', 'signupStatus');
+        return;
+    }
+
+    signupBtn.innerHTML = '<div class="loading"></div> Creating account...';
+    
+    auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            return userCredential.user.updateProfile({
+                displayName: name
+            });
+        })
+        .then(() => {
+            return auth.currentUser.sendEmailVerification();
+        })
+        .then(() => {
+            showStatusMessage('Account created! Please check your email to verify your account.', 'success', 'signupStatus');
+            setTimeout(() => {
+                tabs.forEach(t => t.classList.remove('active'));
+                document.querySelector('[data-tab="login"]').classList.add('active');
+                showForm('loginForm');
+                signupBtn.textContent = 'Create Account';
+            }, 3000);
+        })
+        .catch((error) => {
+            let errorMessage = 'Signup failed. ';
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    errorMessage = 'This email is already registered. <a href="#" id="resetPasswordLink">Forgot password?</a>';
+                    break;
+                case 'auth/invalid-email':
+                    errorMessage += 'Invalid email format.';
+                    break;
+                case 'auth/weak-password':
+                    errorMessage += 'Password is too weak.';
+                    break;
+                default:
+                    errorMessage += 'Please try again.';
+            }
+            
+            // Create a temporary div to parse the HTML
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = errorMessage;
+            
+            // Get the status element
+            const statusElement = document.getElementById('signupStatus');
+            statusElement.innerHTML = '';
+            
+            // Append the parsed content
+            statusElement.appendChild(document.createTextNode(errorMessage.split('<')[0]));
+            if (error.code === 'auth/email-already-in-use') {
+                const link = document.createElement('a');
+                link.href = '#';
+                link.textContent = ' Forgot password?';
+                link.style.color = 'var(--gold-accent)';
+                link.style.textDecoration = 'underline';
+                link.style.cursor = 'pointer';
+                link.id = 'resetPasswordLink';
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('forgotPasswordEmail').value = email;
+                    showForm('forgotPasswordForm');
+                });
+                statusElement.appendChild(link);
+            }
+            
+            statusElement.className = 'status-message error visible';
+            signupBtn.textContent = 'Create Account';
+        });
+});
+
+// Update the reset password button handler
+resetPasswordBtn.addEventListener('click', () => {
+    const email = document.getElementById('forgotPasswordEmail').value;
+    
+    if (!email) {
+        showStatusMessage('Please enter your email address', 'error', 'forgotPasswordStatus');
+        return;
+    }
+    
+    resetPasswordBtn.innerHTML = '<div class="loading"></div> Sending...';
+    
+    auth.sendPasswordResetEmail(email)
+        .then(() => {
+            showStatusMessage('Password reset email sent. Please check your inbox.', 'success', 'forgotPasswordStatus');
+            resetPasswordBtn.textContent = 'Reset Password';
+        })
+        .catch(error => {
+            let errorMessage = 'Error sending reset email. ';
+            switch (error.code) {
+                case 'auth/user-not-found':
+                    errorMessage += 'No user found with this email.';
+                    break;
+                case 'auth/invalid-email':
+                    errorMessage += 'Invalid email format.';
+                    break;
+                default:
+                    errorMessage += 'Please try again later.';
+            }
+            showStatusMessage(errorMessage, 'error', 'forgotPasswordStatus');
+            resetPasswordBtn.textContent = 'Reset Password';
+        });
+});
+
+    // Handle Google login/signup
+    function handleGoogleAuth() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          // Redirect to main app
+          window.location.href = 'index.html';
+        })
+        .catch((error) => {
+          let errorMessage = 'Google authentication failed. ';
+          if (error.code === 'auth/popup-closed-by-user') {
+            errorMessage += 'Popup was closed.';
+          } else {
+            errorMessage += 'Please try again.';
+          }
+          const statusElement = document.querySelector('.auth-form.active').querySelector('.status-message');
+          statusElement.textContent = errorMessage;
+          statusElement.className = 'status-message error visible';
+          setTimeout(() => {
+            statusElement.classList.remove('visible');
+          }, 5000);
+        });
+    }
+
+    googleLoginBtn.addEventListener('click', handleGoogleAuth);
+    googleSignupBtn.addEventListener('click', handleGoogleAuth);
+
+    // Check if user is already logged in
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        window.location.href = 'index.html';
+      }
+    });
+  </script>
+</body>
+</html>
